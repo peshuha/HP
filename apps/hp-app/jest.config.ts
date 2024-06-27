@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'vkr',
+  displayName: 'hp-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/vkr',
+  coverageDirectory: '../../coverage/apps/hp-app',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

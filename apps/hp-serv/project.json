@@ -1,0 +1,31 @@
+{
+  "name": "hp-serv",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/hp-serv/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "hp-serv:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "hp-serv:build:development"
+        },
+        "production": {
+          "buildTarget": "hp-serv:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/hp-serv/jest.config.ts"
+      }
+    }
+  }
+}
