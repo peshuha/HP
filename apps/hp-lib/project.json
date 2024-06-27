@@ -4,6 +4,16 @@
   "sourceRoot": "apps/hp-lib/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project hp-lib --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/hp-lib",
+        "main": "apps/hp-lib/src/index.ts",
+        "tsConfig": "apps/hp-lib/tsconfig.lib.json",
+        "assets": ["apps/hp-lib/*.md"]
+      }
+    }
+  }
 }
