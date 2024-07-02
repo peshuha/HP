@@ -2,7 +2,9 @@ import { Controller, Delete, Post, Put } from '@nestjs/common';
 import { ViewService } from './view.service';
 import { ViewDto } from '../../model/view/view.dto';
 import { IView } from '@vkr/hp-lib';
+import { Public } from '../auth/auth.public';
 
+@Public()
 @Controller('view')
 export class ViewController {
     constructor(

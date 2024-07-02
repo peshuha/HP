@@ -2,7 +2,9 @@ import { Controller, Delete, Patch, Post, Put } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { IRoom } from '@vkr/hp-lib';
 import { RoomDto } from '../../model/room/room.dto';
+import { Public } from '../auth/auth.public';
 
+@Public()
 @Controller('room')
 export class RoomController {
 
