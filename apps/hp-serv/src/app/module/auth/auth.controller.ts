@@ -6,11 +6,10 @@ import {
   Request,
   Post,
 } from '@nestjs/common';
-import { AuthService } from '../../service/auth.service';
-import { AuthDto, UserDto } from '@vkr/hp-lib';
-import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
+import { IAuth, IUser} from '@vkr/hp-lib';
 import { Public } from './auth.public';
-import { UserService } from '../../service/user.service';
+import { UserService } from '../user/user.service';
 
 @Controller()
 export class AuthController {
@@ -21,14 +20,14 @@ export class AuthController {
 
   @Public()
   @Post("login")
-  async login(@Body() dt: AuthDto) {
-    console.log('AuthController::login', dt);
-    return this.auth.signIn(dt.login, dt.password);
+  async login(@Body() auth: IAuth) {
+    console.log('AuthController::login', auth);
+    return this.auth.signIn(auth.login, auth.password);
   }
 
   @Public()
   @Post("register")
-  register(@Body() user: UserDto) {
+  register(@Body() user: IUser) {
       return this.usr.create(user)
   }
 

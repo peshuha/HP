@@ -1,4 +1,4 @@
-import { IAuth } from './iauth';
+import { IAuth } from "@vkr/hp-lib";
 
 export class AuthDto implements IAuth {
   login: string = '';

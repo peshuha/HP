@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AuthDto, UserDto } from '@vkr/hp-lib';
-import { User } from '../mongo/user';
+import { User } from '../../model/user/user.mongo';
+import { IUser } from '@vkr/hp-lib';
+import { UserDto } from '../../model/user/user.dto';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,7 @@ export class UserService {
     return await this.md.findById(id).exec();
   }
 
-  async create(user: UserDto) {
+  async create(user: IUser) {
     console.log('UserService::create', user);
 
     // Есть ли такой уже

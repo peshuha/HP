@@ -6,12 +6,11 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
-import { UserService } from '../../service/user.service';
-import { User, UserDocument } from '../../mongo/user';
-import { UserDto } from '@vkr/hp-lib';
+import { User, UserDocument } from '../../model/user/user.mongo';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.public';
 import { jwtConstants } from '../../config/jwt.constant';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 import { ConfigService } from './app/config/config.service';
 
 async function bootstrap() {
@@ -21,7 +21,7 @@ async function bootstrap() {
   console.log("bootstrap", ConfigService.Config().public_img.path, ConfigService.Config().public_img.prefix)
   app.useStaticAssets(ConfigService.Config().public_img.path, {prefix: ConfigService.Config().public_img.prefix});
 
-  const globalPrefix = 'api';
+  const globalPrefix = '';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   await app.listen(port);

@@ -1,4 +1,4 @@
-import { IUser } from './iuser';
+import { IUser } from "@vkr/hp-lib"
 
 export class UserDto implements IUser {
   id?: string 
