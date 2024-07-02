@@ -9,6 +9,14 @@ export class RoomMongo implements IRoom{
     @Prop()
     user_id: string
 
+    // К какому юзеру привязываем 
+    @Prop()
+    name: string
+
+    // К какому юзеру привязываем 
+    @Prop()
+    comment: string
+
     // Если есть картинка 
     @Prop()
     img_id: string

@@ -20,7 +20,8 @@
           {
             "glob": "**/*",
             "input": "apps/hp-app/public"
-          }
+          },
+          "apps/hp-app/src/assets"
         ],
         "styles": ["apps/hp-app/src/styles.scss"],
         "scripts": []

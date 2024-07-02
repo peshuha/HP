@@ -10,6 +10,10 @@ export class RoomService {
         @InjectModel(RoomMongo.name, 'room') private md: Model<RoomMongo>,
     ) {}
 
+    get(user_id: string) {
+        return this.md.find({user_id})
+    }
+
     add(room: RoomDto) {
         const o = new this.md(room)
         return o.save()

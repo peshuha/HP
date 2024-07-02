@@ -1,0 +1,5 @@
+{
+  "serverProtocol": "http",
+  "baseIndexHref": "/",
+  "appservice": "http://localhost:3000"
+}
