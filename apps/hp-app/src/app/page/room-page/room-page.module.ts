@@ -7,13 +7,15 @@ import { FooterComponent } from './compomnent/footer/footer.component';
 import { ASideComponent } from './compomnent/aside/aside.component';
 import { RoomPageComponent } from './room-page.component';
 import { MenubarModule } from 'primeng/menubar';
+import { StartComponent } from './compomnent/start/start.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     ASideComponent,
-    RoomPageComponent
+    RoomPageComponent,
+    StartComponent
   ],
   imports: [
     CommonModule,

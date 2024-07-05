@@ -1,23 +1,12 @@
 <header class="">
-    <app-header 
-    >
-      <!-- [mnuType]="mnuType" 
-      (OnSearch)="OnSearchChange($event)"  -->
-  </app-header>
+    <app-header></app-header>
 </header>
 <div class="content">
-
-  <div class="tours-list">
+  <div class="body">
     <router-outlet></router-outlet>
   </div>
-  <div 
-    class="aside"
-    >
-    <!-- *ngIf="is_aside"  -->
-    <app-aside 
-    >
-        <!-- [mnuType]="mnuType" (mnuChanged)="OnMenuTypeSelect($event)"  -->
-  </app-aside>
+  <div class="aside">
+    <app-aside></app-aside>
   </div>
 </div>
 <footer>

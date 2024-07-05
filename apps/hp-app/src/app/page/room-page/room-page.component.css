@@ -20,7 +20,7 @@
     width: 100%;
     overflow: hidden;
   }
-  .tours-list {
+  .body {
     flex-grow: 1;
     height: 100%;
   }

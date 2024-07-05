@@ -13,6 +13,9 @@ export class HpDto implements IHP {
         public polygon: PointDto[],
         // Те же самые координаты, но с разбивкой для случаем сцепки рисунка кольцом
         public segment?: PointDto[],
+        // В каких условиях отображать
+        public status?: string,
+
     ) {
     }
 

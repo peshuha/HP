@@ -5,4 +5,5 @@ export interface IHP {
     room_id: string
     polygon: IPoint[]
     segment?: IPoint[]
+    status?: string
 }
