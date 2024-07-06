@@ -9,7 +9,7 @@ import { RoomPageModule } from './page/room-page/room-page.module';
 import { MessageService } from 'primeng/api';
 import { LoginPageModule } from './page/login-page/login-page.module';
 import { ConfigService } from './service/config/config.service';
-import { DialogsModule } from './module/dialogs/dialogs.module';
+import { DialogsModule } from './dialogs/dialogs.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogService } from 'primeng/dynamicdialog';
 
