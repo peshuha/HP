@@ -6,7 +6,6 @@ export class RoomDto implements IRoom {
     constructor(
         public user_id: string,
         public name: string,
-        public img_id: string, 
         public comment?: string,
         public _id?: string
     ){}
@@ -16,7 +15,6 @@ export class RoomDto implements IRoom {
         return new this (
             user_id,
             room.name,
-            room.img_id,
             room.comment, 
             room._id
         )
@@ -27,7 +25,6 @@ export class RoomDto implements IRoom {
         return new this (
             undefined,  // user_id
             room.name,
-            room.img_id,
             room.comment, 
             room._id.toString()
         )

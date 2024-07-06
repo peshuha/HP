@@ -8,7 +8,4 @@ export interface IRoom {
 
     // Комментарий
     comment?: string
-
-    // Фото витрины
-    img_id: string
 }

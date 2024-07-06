@@ -17,9 +17,9 @@ export class RoomMongo implements IRoom{
     @Prop()
     comment: string
 
-    // Если есть картинка 
+    // Фото 
     @Prop()
-    img_id: string
+    img: String
 }
 
 export type RoomMongoDocument = HydratedDocument<RoomMongo>;

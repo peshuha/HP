@@ -31,6 +31,14 @@ export class AuthGuard implements CanActivate {
     }
 
     const req = context.switchToHttp().getRequest();
+
+    // На время тестов указываем тестового юзера
+    req['__user'] = {
+      _id: "xxx"
+    }
+    // console.log("AuthGuard::canActivate", req['__user'])
+    return true;
+
     const token = this.extractTokenFromHeader(req);
     if (!token) {
       throw new UnauthorizedException();
