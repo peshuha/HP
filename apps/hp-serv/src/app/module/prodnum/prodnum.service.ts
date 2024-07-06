@@ -11,16 +11,20 @@ export class ProdnumService {
         @InjectModel(ProdnumMongo.name, 'room') private md: Model<ProdnumMongo>,
     ) {}
 
+    async get(hp_id: string) {
+        return this.md.find({hp_id})
+    }
+    
     async add(prodnum: ProdnumDto) {
         const o = new this.md(prodnum)
         return o.save()
     }
 
-    change(prodnum: ProdnumDto) {
+    async change(prodnum: ProdnumDto) {
         return this.md.findByIdAndUpdate(prodnum._id, prodnum, {new: true})
     }
 
-    remove(prodnum: ProdnumDto) {
+    async remove(prodnum: ProdnumDto) {
         return this.md.findByIdAndDelete(prodnum._id)
     }
 }

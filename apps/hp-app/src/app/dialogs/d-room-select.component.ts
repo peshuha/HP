@@ -55,7 +55,7 @@ export class DRoomSelectComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.svc.getAll().subscribe(rooms => {
+    this.svc.get_all().subscribe(rooms => {
       console.log("DRoomSelectComponent::ngOnInit", rooms)
       this.rooms = rooms
     })

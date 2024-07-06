@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Patch, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req } from '@nestjs/common';
 import { HpService } from './hp.service';
 import { IHP } from '@vkr/hp-lib';
 import { HpDto } from '../../model/hp/hp.dto';
@@ -12,8 +12,14 @@ export class HpController {
         private svc: HpService
     ){}
 
+    @Get(":room_id")
+    async get(@Param("room_id") room_id) {
+        return this.svc.get(room_id)
+    }
+
     @Post()
-    async add(@Body() hp: IHP) {
+    async add(@Body("hp") hp: IHP) {
+        console.log("HpController:add", hp)
         const o = await this.svc.add(HpDto.fromIHP(hp))
         return HpDto.fromHpMongo(o)
     }

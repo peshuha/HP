@@ -1,9 +1,9 @@
-import { Injectable, Response } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RoomDto } from '../../model/room/room.dto';
 import { RoomMongo } from '../../model/room/room.mongo';
-import { Readable } from 'stream';
+
 
 @Injectable()
 export class RoomService {
@@ -28,29 +28,18 @@ export class RoomService {
         return RoomDto.fromRoomDocument(o)
     }
 
-    async get_img(@Response() res, user_id: string, room_id: string) {
-        
+    async get_img(user_id: string, room_id: string) {
+
         // Сначала получаем комнату
         const o = await this.md.findById(room_id)
-
+ 
         // Проверяем на пренадлежность юзеру
-        if(o._id.toString() !== user_id){
-            return
+        if(o.user_id.toString() !== user_id){
+            return null
         }
 
-        // Получаем картинку
-        const img = Buffer.from(o.img, "base64")
-        res.set({
-            'Content-Type': 'image/*',
-            'Content-Length': img.length,
-        });
-        
-        const stream = new Readable();
-
-        stream.push(img);
-        stream.push(null);
-        
-        return stream.pipe(res)
+        // Возвращаем картинку
+        return Buffer.from(o.img, "base64")
     }
 
     add(room: RoomDto, img: Express.Multer.File) {

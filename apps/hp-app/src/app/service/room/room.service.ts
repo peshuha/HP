@@ -11,11 +11,11 @@ export class RoomService {
     private svc: RoomRestService
   ) { }
 
-  getAll() {
-    return this.svc.getAll()
+  get_all() {
+    return this.svc.get_all()
   }
 
-  add(room: IRoom, img: File) {
-    return this.svc.add(room, img)
+  add(room: IRoom) {
+    return this.svc.add(room)
   }
 }

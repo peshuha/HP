@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SpheraComponent } from '../sphera/sphera.component';
+import { SphereComponent } from '../sphere/sphere.component';
 
 
 
 @NgModule({
   declarations: [
-    SpheraComponent
+    SphereComponent
   ],
   imports: [
     CommonModule

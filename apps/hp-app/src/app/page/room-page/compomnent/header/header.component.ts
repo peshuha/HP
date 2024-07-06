@@ -7,6 +7,7 @@ import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -56,7 +57,7 @@ export class HeaderComponent implements OnInit {
         return
       }
       
-      this.router.navigate(["./room", room._id])
+      this.router.navigate(["./sphera", room._id])
     })
   }
 
@@ -65,17 +66,9 @@ export class HeaderComponent implements OnInit {
       modal: true
     })
 
-    this.ref.onClose.subscribe(r => {
-      console.log("HeaderComponent::addRoom", r)
-      this.svcRoom.add(r, r.img).subscribe()
-      return
-      const room: IRoom = r
-      console.log("this.ref.onClose", room)
-      if(!room){
-        return
-      }
-      
-      this.router.navigate(["./room", room._id])
+    this.ref.onClose.subscribe(room => {
+      console.log("HeaderComponent::addRoom", room)
+      this.svcRoom.add(<IRoom>room).subscribe()
     })
   }
 

@@ -12,12 +12,16 @@ export class RoomRestService {
     private http: HttpClient
   ) { }
 
-  getAll () {
+  get_all () {
     return this.http.get<IRoom[]>(ConfigService.Config?.appservice + "/room")
   }
 
-  add(room: IRoom, img: File) {
-    console.log("RoomRestService::add", room, img, Object.keys(room))
+  get_by_room (room: IRoom) {
+    return this.http.get<IRoom[]>(ConfigService.Config?.appservice + `/room/${room._id}` )
+  }
+
+  add(room: IRoom) {
+    console.log("RoomRestService::add", room, Object.keys(room))
     
 
     const fm = new FormData

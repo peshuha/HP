@@ -8,6 +8,7 @@ import { ASideComponent } from './compomnent/aside/aside.component';
 import { RoomPageComponent } from './room-page.component';
 import { MenubarModule } from 'primeng/menubar';
 import { StartComponent } from './compomnent/start/start.component';
+import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { StartComponent } from './compomnent/start/start.component';
     FooterComponent,
     ASideComponent,
     RoomPageComponent,
-    StartComponent
+    StartComponent,
+    RoomSphereComponent
   ],
   imports: [
     CommonModule,

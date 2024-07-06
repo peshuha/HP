@@ -9,6 +9,10 @@ export class HpService {
     constructor(
         @InjectModel(HpMongo.name, 'room') private md: Model<HpMongo>,
     ) {}   
+
+    get(room_id: string) {
+        return this.md.find({room_id})
+    }
     
     add(hp: HpDto) {
         const o = new this.md(hp)

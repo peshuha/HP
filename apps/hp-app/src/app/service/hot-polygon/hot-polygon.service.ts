@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
 import { v4 as uuidv4 } from 'uuid'
+import { HotPolygonRestService } from './hot-polygon-rest.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,32 +10,24 @@ export class HotPolygonService {
 
   hps: IHP[] = []
 
-  constructor() { }
+  constructor(
+    private rest: HotPolygonRestService
+  ) { }
 
-  getHP() {
-    return this.hps
+  get(room_id: string) {
+    return this.rest.get(room_id)
   }
 
-  addHP(room_id: string, polygon: IPoint[], prodnums: IProdnum[]): IHP {
-
-    const hp: IHP = {
-      _id: uuidv4(),
-      room_id, 
-      polygon,
-      status: ""
-    }
-
-    this.hps.push(hp)
-    console.log("addHP()", this.hps)
-    return hp
+  add(hp: IHP){
+    return this.rest.add(hp)
   }
 
-  removeHP(id: string): void {
-    this.hps = this.hps.filter(hp => hp._id !== id)
+  delete(hp: IHP) {
+    this.rest.delete(hp)
   }
 
-  changeHP(hp: IHP): void {
-    this.hps = this.hps.map(p => p._id === hp._id ? hp : p)
+  change(hp: IHP) {
+    this.rest.change(hp)
   }
 
 }

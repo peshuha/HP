@@ -1,13 +1,15 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IPoint, IProdnum } from '@vkr/hp-lib';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
 import { SphereBufferGeometry } from 'apps/hp-app/src/app/class/SphereBufferGeometry';
 import { inside, uvToVector3 } from 'apps/hp-app/src/app/class/point-utils';
+import { ConfigService } from 'apps/hp-app/src/app/service/config/config.service';
 import { HotPolygonService } from 'apps/hp-app/src/app/service/hot-polygon/hot-polygon.service';
+import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import * as THREE from "three"
 
-
 @Component({
-  selector: 'app-sphera',
+  selector: 'app-room-sphere',
   template: `
     <div #host class="-canvas">
         <canvas #canvas></canvas> 
@@ -34,7 +36,7 @@ import * as THREE from "three"
     }
   `
 })
-export class SpheraComponent {
+export class RoomSphereComponent implements OnInit, AfterViewInit, OnDestroy {
 
   room_id: string = ""
   camera: any; 
@@ -62,9 +64,19 @@ export class SpheraComponent {
   parent: HTMLElement | undefined
 
   npoint = 1
+  hps: IHP[] = []
+
   constructor(
-    private svcHP: HotPolygonService
+    private svcHP: HotPolygonService,
+    private aroute: ActivatedRoute,
+    private svcRoom: RoomService
   ) { }  
+
+  ngOnInit(): void {
+
+    this.room_id = this.aroute.snapshot.paramMap.get("room_id") || ""
+    console.log("RoomSphereComponent::ngOnInit()", this.room_id)
+  }
 
   ngAfterViewInit(): void {
 
@@ -84,11 +96,11 @@ export class SpheraComponent {
     this.raycaster = new THREE.Raycaster();
  
     this.init({
-      texture: "assets/img/jevL9av.jpeg",  //"https://i.imgur.com/jevL9av.jpg",
-      stencil: "assets/img/NUKbrbl.png", // "https://i.imgur.com/NUKbrbl.png",
+      texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`
     })
 
-    this.renderer?.domElement.style.removeProperty("width")
+    // this.renderer?.domElement.style.removeProperty("width")
+
   }
 
   ngOnDestroy(): void {
@@ -123,35 +135,42 @@ export class SpheraComponent {
     this.sphere?.children.forEach(ch => {ch.parent?.remove(ch)})
 
     // Затем добавляем
-    for(let hp of this.svcHP.getHP()) {
+    this.svcHP.get(this.room_id).subscribe(hps => {
 
-      if(!hp.polygon.length)
-        continue
+      this.hps = hps
+      console.log("displayHP().hps", hps)
+      for(let hp of this.hps) {
 
-      // Отталкиваемся от статуса
-      const status = hp.status
+        if(!hp.polygon.length)
+          continue
+  
+        // Отталкиваемся от статуса
+        const status = hp.status || ""
 
-      // Обычный
-      if(status === "") {
-    
-        // Из точек формируем полигон
-        const polygon: THREE.Vector3[] = []
-        hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
-
-        // Формируем замыкание
-        polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
-
-        const material = new THREE.LineBasicMaterial({
-          color: 0xF8FA19,  // yellow
-          linewidth: 3
-        });    
-
-        // Формируем объект
-        const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-        this.sphere!.add(new THREE.Line(geometry, material))      
+        console.log("displayHP().hp", hp, status)
+  
+        // Обычный
+        if(status === "") {
+      
+          // Из точек формируем полигон
+          const polygon: THREE.Vector3[] = []
+          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+  
+          // Формируем замыкание фигуры
+          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+  
+          const material = new THREE.LineBasicMaterial({
+            color: 0xF8FA19,  // yellow
+            linewidth: 3
+          });    
+  
+          // Формируем объект
+          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+          this.sphere!.add(new THREE.Line(geometry, material))      
+        }
+  
       }
-
-    }
+    })
   }
 
   isWebGLSupported () {
@@ -174,7 +193,8 @@ export class SpheraComponent {
     const geometry = new SphereBufferGeometry(500, 60, 40)// , 0, 1.39, 1.23, 0.30); //)
     geometry.scale(-1, 1, 1);
 
-    this.texture = new THREE.TextureLoader().load(json.texture)
+    this.texture = new THREE.TextureLoader().load(json.texture, () => this.displayHP())
+ 
     const material = new THREE.MeshBasicMaterial( { map: this.texture} )
     this.sphere = new THREE.Mesh( geometry, material )
 
@@ -261,7 +281,7 @@ export class SpheraComponent {
     // return 
 
     // Ищем ту область, в которой у нас точка
-    for(let hp of this.svcHP.getHP()) {
+    for(let hp of this.hps) {
       
       if(!inside(p, hp.polygon))
         continue
@@ -315,11 +335,17 @@ export class SpheraComponent {
 
       // Добавляем его к списку HP
       const prodnum: IProdnum = {prodnum: `rect ${this.npoint}`, comment: "", qty: 0}
-      this.svcHP.addHP(this.room_id, polygon, [prodnum])
+      this.svcHP.add({
+        room_id: this.room_id,
+        polygon
+      }).subscribe(x => {
+
+        // Перерисовываем 
+        this.displayHP()
+      })
+
       this.npoint += 1
 
-      // Перерисовываем 
-      this.displayHP()
     }
     this.rectStart.x = null;
   }

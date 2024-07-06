@@ -21,11 +21,11 @@ export class HpDto implements IHP {
 
     // Request
     static fromIHP(hp: IHP) {
-        console.log("HpDto.fromIHP", hp, JSON.parse(hp.polygon as any))
+        console.log("HpDto.fromIHP", hp)
         return new this(
             hp._id,
             hp.room_id,
-            JSON.parse(hp.polygon as any),
+            hp.polygon,
             hp.segment
         )
     }
