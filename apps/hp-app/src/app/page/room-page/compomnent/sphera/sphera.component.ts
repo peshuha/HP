@@ -103,9 +103,9 @@ export class SpheraComponent {
   }
 
   onWindowResize() {
-    console.log("onWindowResize0", this.parent?.clientWidth, this.parent?.clientHeight, innerWidth / innerHeight)
-    console.log("onWindowResize1", this.canvas!.width, this.canvas!.height, innerWidth / innerHeight)
-    console.log("onWindowResize2", this.renderer?.domElement.width, this.renderer?.domElement.height)
+    // console.log("onWindowResize0", this.parent?.clientWidth, this.parent?.clientHeight, innerWidth / innerHeight)
+    // console.log("onWindowResize1", this.canvas!.width, this.canvas!.height, innerWidth / innerHeight)
+    // console.log("onWindowResize2", this.renderer?.domElement.width, this.renderer?.domElement.height)
    // this.camera.aspect = this.host!.clientWidth / this.host!.clientHeight;
     // this.camera.aspect = this.canvas!.width / this.canvas!.height;
     this.camera.aspect = innerWidth / innerHeight;
@@ -113,7 +113,7 @@ export class SpheraComponent {
     this.renderer!.setSize(this.parent!.clientWidth, this.parent!.clientHeight);
     // this.renderer!.setSize( this.canvas!.width / this.camera.aspect, this.canvas!.height / this.camera.aspect);
     // this.renderer!.setSize( innerWidth, innerHeight );
-    console.log("onWindowResize -a", this.renderer?.domElement.width, this.renderer?.domElement.height)
+    // console.log("onWindowResize -a", this.renderer?.domElement.width, this.renderer?.domElement.height)
   }
 
   // Отобразить все hp

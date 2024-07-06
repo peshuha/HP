@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IRoom } from '@vkr/hp-lib';
 import { DRoomCreateComponent } from 'apps/hp-app/src/app/dialogs/d-room-create.component';
 import { DRoomSelectComponent } from 'apps/hp-app/src/app/dialogs/d-room-select.component';
+import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -18,7 +19,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private svcDialog: DialogService,
-    private router: Router
+    private router: Router,
+    private svcRoom: RoomService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +66,9 @@ export class HeaderComponent implements OnInit {
     })
 
     this.ref.onClose.subscribe(r => {
+      console.log("HeaderComponent::addRoom", r)
+      this.svcRoom.add(r, r.img).subscribe()
+      return
       const room: IRoom = r
       console.log("this.ref.onClose", room)
       if(!room){

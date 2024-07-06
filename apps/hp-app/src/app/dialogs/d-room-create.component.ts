@@ -11,34 +11,23 @@ import { RoomRestService } from '../service/room/room-rest.service';
     <div #header class="hidden">
       <h4>Создание комнаты</h4>
     </div>
-    <form [formGroup]="form">
-
-      <div class="row col-6">
+    <form [formGroup]="form"  class="row col-12">
+<!-- class="form w-25" -->
+      <div>
         <div class="row">
-          <label for="3eb096e9-b537-488e-b5e6-ff1be824c0b8" class="col-6">Название тура</label>
+          <label for="3eb096e9-b537-488e-b5e6-ff1be824c0b8" class="col-6">Название комнаты</label>
           <input type="text" class="col-6 mb-3" id="3eb096e9-b537-488e-b5e6-ff1be824c0b8" formControlName="name">
         </div>
         <div class="row">
-          <label for="" class="col-6">Описание тура</label>
-          <input type="text" class="col-6 mb-3" id="" formControlName="description">
+          <label for="" class="col-6">Примечание</label>
+          <input type="text" class="col-6 mb-3" id="" formControlName="comment">
         </div>
         <div class="row">
-          <label for="440a99cd-3021-4834-bb7a-7b0cc821e87b" class="col-6">Туроператор</label>
-          <input type="text" class="col-6 mb-3" id="440a99cd-3021-4834-bb7a-7b0cc821e87b" formControlName="tourOperator">
+          <label for="53a2e91c-7e24-498d-bb11-9c95eb818dc4" class="col-6">Изображение</label>
+          <input type="file" #file class="col-6 mb-3" id="53a2e91c-7e24-498d-bb11-9c95eb818dc4" formControlName="img">
         </div>
         <div class="row">
-          <label for="7ff90e80-76a8-44b6-8ca1-5bf9a3a6d650" class="col-6">Стоимость</label>
-          <input type="number" class="col-6 mb-3" id="7ff90e80-76a8-44b6-8ca1-5bf9a3a6d650" formControlName="price">
-        </div>
-        <div class="row">
-          <label for="53a2e91c-7e24-498d-bb11-9c95eb818dc4" class="col-6">Изображения</label>
-          <!-- <input type="file" multiple="true" #files class="col-6 mb-3" id="53a2e91c-7e24-498d-bb11-9c95eb818dc4" formArrayName="imgs" (change)="OnSelectImage($event)"> -->
-        </div>
-        <div class="row">
-          <!-- <button class="mb-3 col-3 btn btn-success" (click)="OnSave()">Сохранить (v1)</button> -->
-        </div>
-        <div class="row">
-          <!-- <button class="mb-3 col-3 btn btn-success" (click)="OnSave2()">Сохранить (v2)</button> -->
+          <button class="mb-6 col-3 btn btn-success" (click)="Create()">Создать</button>
         </div>
       </div> 
     </form>
@@ -52,19 +41,17 @@ import { RoomRestService } from '../service/room/room-rest.service';
 export class DRoomCreateComponent implements AfterViewInit {
 
   @ViewChild("header") header: ElementRef | undefined
+  @ViewChild("file") file: ElementRef | undefined
 
   // Ссылка на форму
   form = new FormGroup({
     name: new FormControl(),
-    description: new FormControl(),
-    tourOperator: new FormControl(),
-    price: new FormControl(),
-    // imgs: this.formBuilder.array([]),
-    imgs: new FormControl(),
+    comment: new FormControl(),
+    img: new FormControl(),
   })
 
   constructor(
-    private ref: DynamicDialogRef,
+    private dlg: DynamicDialogRef,
     private svc: RoomRestService,
     private host: ElementRef
   ){}
@@ -74,5 +61,18 @@ export class DRoomCreateComponent implements AfterViewInit {
     if(title){
       title.innerHTML = (this.header?.nativeElement as HTMLElement).innerHTML
     }
+  }
+
+  Create() {
+    const files = (this.file?.nativeElement as HTMLInputElement).files
+    console.log("DRoomCreateComponent::Close()", files)
+    if(!files || !files[0])
+      return
+    
+    this.dlg.close({
+      name: this.form.getRawValue().name,
+      comment: this.form.getRawValue().comment,
+      img: this.file?.nativeElement.files[0]
+    })
   }
 }

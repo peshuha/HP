@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Patch, Post, Put, UploadedFile, UseInterceptors, Request, Query, Param } from '@nestjs/common';
+import { Controller, Delete, Get, Patch, Post, Put, UploadedFile, UseInterceptors, Request, Query, Param, Body } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { IRoom } from '@vkr/hp-lib';
 import { RoomDto } from '../../model/room/room.dto';
@@ -27,7 +27,8 @@ export class RoomController {
 
     @Post()
     @UseInterceptors(FileInterceptor('img'))
-    async add(@UserId() user, room: IRoom, @UploadedFile() img: Express.Multer.File) {
+    async add(@UserId() user, @Body() room: IRoom, @UploadedFile() img: Express.Multer.File) {
+        console.log("RoomController::add", user, room, img)
         const o = await this.svc.add(RoomDto.fromIRoom(user, room), img)
         return RoomDto.fromRoomDocument(o)
     }

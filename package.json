@@ -21,6 +21,7 @@
     "@types/multer": "^1.4.11",
     "@types/three": "^0.166.0",
     "axios": "^1.6.0",
+    "bootstrap": "^5.3.3",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.1",
     "reflect-metadata": "^0.1.13",

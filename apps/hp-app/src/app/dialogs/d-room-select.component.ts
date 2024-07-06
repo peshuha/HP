@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IRoom} from "@vkr/hp-lib"
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { RoomRestService } from '../service/room/room-rest.service';
+import { RoomService } from '../service/room/room.service';
 
 @Component({
   selector: 'app-d-room-select',
   template: `
     <div #header class="hidden">
-      <h4>Выберите Комнату</h4>
+      Выберите Комнату
     </div>
     <p-table [value]="rooms" [rows]="5" >
       <ng-template pTemplate="header">
@@ -43,22 +43,22 @@ export class DRoomSelectComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ref: DynamicDialogRef,
-    private svc: RoomRestService,
+    private svc: RoomService,
     private host: ElementRef
   ){}
-
-  ngOnInit(): void {
-    this.svc.getAll().subscribe(rooms => {
-      console.log("DRoomSelectComponent::ngOnInit", rooms)
-      this.rooms = rooms
-    })
-  }
 
   ngAfterViewInit(): void {
     const title = (this.host.nativeElement as HTMLElement).closest(".p-dialog")?.querySelector(".p-dialog-title")
     if(title){
       title.innerHTML = (this.header?.nativeElement as HTMLElement).innerHTML
     }
+  }
+
+  ngOnInit(): void {
+    this.svc.getAll().subscribe(rooms => {
+      console.log("DRoomSelectComponent::ngOnInit", rooms)
+      this.rooms = rooms
+    })
   }
 
   select(room: IRoom) {
