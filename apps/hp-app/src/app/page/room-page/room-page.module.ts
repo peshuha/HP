@@ -11,6 +11,7 @@ import { StartComponent } from './compomnent/start/start.component';
 import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
 import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
 import { SceneDirective } from '../../directive/scene.directive';
+import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SceneDirective } from '../../directive/scene.directive';
     StartComponent,
     RoomSphereComponent,
     RoomSphere0Component,
-    SceneDirective
+    SceneDirective,
+    RoomCylinderComponent
   ],
   imports: [
     CommonModule,

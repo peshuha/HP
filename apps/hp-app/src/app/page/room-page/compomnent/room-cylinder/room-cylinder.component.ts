@@ -1,19 +1,14 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
-import { SphereBufferGeometry } from 'apps/hp-app/src/app/class/SphereBufferGeometry';
-import { inside, uvToVector3 } from 'apps/hp-app/src/app/class/point-utils';
+import { CylinderBufferGeometry } from 'apps/hp-app/src/app/class/CylinderBufferGeometry';
 import { SceneDirective } from 'apps/hp-app/src/app/directive/scene.directive';
 import { ConfigService } from 'apps/hp-app/src/app/service/config/config.service';
-import { HPService } from 'apps/hp-app/src/app/service/hp/hp.service';
-import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import { Subject } from 'rxjs';
-import * as THREE from "three"
 
 @Component({
-  selector: 'app-room-sphere',
+  selector: 'app-room-cylinder',
   template: `
-    <div  
+    <div #host 
 
     appScene
     [canvas]="canvas"
@@ -44,7 +39,7 @@ import * as THREE from "three"
     }
   `
 })
-export class RoomSphereComponent implements OnInit, AfterViewInit {
+export class RoomCylinderComponent implements OnInit, AfterViewInit {
 
   // directive scene
   activator = new Subject; 
@@ -62,16 +57,17 @@ export class RoomSphereComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.room_id = this.aroute.snapshot.paramMap.get("room_id") || ""
-    console.log("RoomSphereComponent::ngOnInit()", this.room_id)
+    console.log("RoomCylinderComponent::ngOnInit()", this.room_id)
   }
 
   ngAfterViewInit(): void {
 
     this.info = this._info?.nativeElement
 
-    const geometry = new SphereBufferGeometry(500, 60, 40)// , 0, 1.39, 1.23, 0.30); //)
+    const geometry = new CylinderBufferGeometry(250, 250, 500, 100, 100, false, Math.PI, Math.PI + Math.PI / 1.12)// , 0, 1.39, 1.23, 0.30); //)
 
-    console.log("RoomSphereComponent::ngAfterViewInit().dscene", this.dscene)
+
+    console.log("RoomCylinderComponent::ngAfterViewInit().dscene", this.dscene)
     this.dscene!.init({
       geometry: geometry,
       texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`

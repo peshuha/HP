@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit {
         return
       }
       
-      this.router.navigate(["./sphera", room._id])
+      this.router.navigate(["./cylinder", room._id])
     })
   }
 

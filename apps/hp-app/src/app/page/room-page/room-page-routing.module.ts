@@ -5,6 +5,7 @@ import { SphereComponent } from './compomnent/sphere/sphere.component';
 import { StartComponent } from './compomnent/start/start.component';
 import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
 import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
+import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: "sphera/:room_id",
         component: RoomSphereComponent
+      },  
+      {
+        path: "cylinder/:room_id",
+        component: RoomCylinderComponent
       },
       {
         path: "sphera",

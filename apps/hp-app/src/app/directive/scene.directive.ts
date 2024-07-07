@@ -113,6 +113,9 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
     this.texture = new THREE.TextureLoader().load(json.texture, () => this.displayHP())
  
     const material = new THREE.MeshBasicMaterial( { map: this.texture} )
+
+    // Разворачиваем geometry внутрь
+    json.geometry.scale(-1, 1, 1);
     this.sphere = new THREE.Mesh( json.geometry, material )
 
     
