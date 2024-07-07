@@ -4,6 +4,7 @@ import { RoomPageComponent } from './room-page.component';
 import { SphereComponent } from './compomnent/sphere/sphere.component';
 import { StartComponent } from './compomnent/start/start.component';
 import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
+import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
 
 const routes: Routes = [
   {

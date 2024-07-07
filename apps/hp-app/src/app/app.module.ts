@@ -12,6 +12,7 @@ import { ConfigService } from './service/config/config.service';
 import { DialogsModule } from './dialogs/dialogs.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogService } from 'primeng/dynamicdialog';
+import { SceneDirective } from './directive/scene.directive';
 
 @NgModule({
   declarations: [

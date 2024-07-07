@@ -9,6 +9,8 @@ import { RoomPageComponent } from './room-page.component';
 import { MenubarModule } from 'primeng/menubar';
 import { StartComponent } from './compomnent/start/start.component';
 import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
+import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
+import { SceneDirective } from '../../directive/scene.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.compon
     ASideComponent,
     RoomPageComponent,
     StartComponent,
-    RoomSphereComponent
+    RoomSphereComponent,
+    RoomSphere0Component,
+    SceneDirective
   ],
   imports: [
     CommonModule,
