@@ -4,7 +4,7 @@ import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
 import { SphereBufferGeometry } from 'apps/hp-app/src/app/class/SphereBufferGeometry';
 import { inside, uvToVector3 } from 'apps/hp-app/src/app/class/point-utils';
 import { ConfigService } from 'apps/hp-app/src/app/service/config/config.service';
-import { HotPolygonService } from 'apps/hp-app/src/app/service/hot-polygon/hot-polygon.service';
+import { HPService } from 'apps/hp-app/src/app/service/hp/hp.service';
 import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import * as THREE from "three"
 
@@ -67,7 +67,7 @@ export class RoomSphereComponent implements OnInit, AfterViewInit, OnDestroy {
   hps: IHP[] = []
 
   constructor(
-    private svcHP: HotPolygonService,
+    private svcHP: HPService,
     private aroute: ActivatedRoute,
     private svcRoom: RoomService
   ) { }  

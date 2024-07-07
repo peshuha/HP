@@ -6,7 +6,7 @@ import { IHP } from '@vkr/hp-lib';
 @Injectable({
   providedIn: 'root'
 })
-export class HotPolygonRestService {
+export class HPRestService {
 
   constructor(
     private http: HttpClient

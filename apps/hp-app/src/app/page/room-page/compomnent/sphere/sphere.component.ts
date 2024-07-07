@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@ang
 import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
 import { SphereBufferGeometry } from 'apps/hp-app/src/app/class/SphereBufferGeometry';
 import { inside, uvToVector3 } from 'apps/hp-app/src/app/class/point-utils';
-import { HotPolygonService } from 'apps/hp-app/src/app/service/hot-polygon/hot-polygon.service';
+import { HPService } from 'apps/hp-app/src/app/service/hp/hp.service';
 import * as THREE from "three"
 
 
@@ -65,7 +65,7 @@ export class SphereComponent implements AfterViewInit, OnDestroy {
 
   npoint = 1
   constructor(
-    private svcHP: HotPolygonService
+    private svcHP: HPService
   ) { }  
 
   ngAfterViewInit(): void {

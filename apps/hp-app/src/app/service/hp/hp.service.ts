@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { IHP, IPoint, IProdnum } from '@vkr/hp-lib';
 import { v4 as uuidv4 } from 'uuid'
-import { HotPolygonRestService } from './hot-polygon-rest.service';
+import { HPRestService } from './hp-rest.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HotPolygonService {
+export class HPService {
 
   hps: IHP[] = []
 
   constructor(
-    private rest: HotPolygonRestService
+    private rest: HPRestService
   ) { }
 
   get(room_id: string) {
