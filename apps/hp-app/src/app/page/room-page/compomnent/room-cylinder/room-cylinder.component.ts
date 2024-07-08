@@ -55,7 +55,6 @@ export class RoomCylinderComponent implements OnInit, AfterViewInit {
   ) { }  
 
   ngOnInit(): void {
-
     this.room_id = this.aroute.snapshot.paramMap.get("room_id") || ""
     console.log("RoomCylinderComponent::ngOnInit()", this.room_id)
   }
@@ -65,9 +64,6 @@ export class RoomCylinderComponent implements OnInit, AfterViewInit {
     this.info = this._info?.nativeElement
 
     const geometry = new CylinderBufferGeometry(250, 250, 500, 100, 100, false, Math.PI, Math.PI + Math.PI / 1.12)// , 0, 1.39, 1.23, 0.30); //)
-
-
-    console.log("RoomCylinderComponent::ngAfterViewInit().dscene", this.dscene)
     this.dscene!.init({
       geometry: geometry,
       texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`
