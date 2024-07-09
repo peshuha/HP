@@ -35,7 +35,7 @@ const routes: Routes = [
         component: RoomCylinderComponent
       },  
       {
-        path: "sphera",
+        path: "sphere",
         component: SphereComponent
       }    
     ]
