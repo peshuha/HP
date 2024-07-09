@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: "",
-        redirectTo: "sphera",
+        redirectTo: "sphere",
         pathMatch: 'full'
       }, 
       {

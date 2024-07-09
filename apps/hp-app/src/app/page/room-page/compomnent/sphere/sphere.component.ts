@@ -7,7 +7,7 @@ import * as THREE from "three"
 
 
 @Component({
-  selector: 'app-sphera',
+  selector: 'app-sphere',
   template: `
     <div #host class="-canvas">
         <canvas #canvas></canvas> 
@@ -64,9 +64,7 @@ export class SphereComponent implements AfterViewInit, OnDestroy {
   hps: IHP[] = []
 
   npoint = 1
-  constructor(
-    private svcHP: HPService
-  ) { }  
+  constructor() { }  
 
   ngAfterViewInit(): void {
 
@@ -124,40 +122,32 @@ export class SphereComponent implements AfterViewInit, OnDestroy {
     // Сначала все удаляем
     this.sphere?.children.forEach(ch => {ch.parent?.remove(ch)})
 
-    // Получаем все заново
-    this.svcHP.get(this.room_id).subscribe(hps => {
+    for(let hp of this.hps) {
 
-      this.hps = hps
-      for(let hp of this.hps) {
+      if(!hp.polygon.length)
+        continue
 
-        if(!hp.polygon.length)
-          continue
+      // Отталкиваемся от статуса
+      const status = hp.status
+ 
+      // Из точек формируем полигон
+      const polygon: THREE.Vector3[] = []
+      hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
 
-        // Отталкиваемся от статуса
-        const status = hp.status
+      // Формируем замыкание
+      polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
 
-        // Обычный
-        if(status === "") {
-      
-          // Из точек формируем полигон
-          const polygon: THREE.Vector3[] = []
-          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+      const material = new THREE.LineBasicMaterial({
+        color: 0xF8FA19,  // yellow
+        linewidth: 3
+      });    
 
-          // Формируем замыкание
-          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+      // Формируем объект
+      const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+      this.sphere!.add(new THREE.Line(geometry, material))      
 
-          const material = new THREE.LineBasicMaterial({
-            color: 0xF8FA19,  // yellow
-            linewidth: 3
-          });    
+    }
 
-          // Формируем объект
-          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-          this.sphere!.add(new THREE.Line(geometry, material))      
-        }
-
-      }
-    })
   }
 
   isWebGLSupported () {
@@ -320,11 +310,11 @@ export class SphereComponent implements AfterViewInit, OnDestroy {
       console.log("onPointerUp(event)", polygon)
 
       // Добавляем его к списку HP
-      const prodnum: IProdnum = {prodnum: `rect ${this.npoint}`, comment: "", qty: 0}
-      this.svcHP.add(<IHP>{
+      this.hps.push({
         room_id: this.room_id,
         polygon, 
       })
+
       this.npoint += 1
 
       // Перерисовываем 

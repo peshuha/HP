@@ -218,81 +218,86 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
 
         console.log("displayHP().hp", hp, status)
   
-        // Обычный
-        if(status === "") {
-      
-          // Из точек формируем полигон
-          const polygon: THREE.Vector3[] = []
-          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
-  
-          // Формируем замыкание фигуры
-          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
-  
-          const material = new THREE.LineBasicMaterial({
-            color: 0xF0FD13,  // ytjyjdsq ptktysq
-            linewidth: 4
-          });    
-  
-          // Формируем объект
-          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-          this.sphere!.add(new THREE.Line(geometry, material))      
-        }
+        try {
+          // Обычный
+          if(status === "") {
+        
+            // Из точек формируем полигон
+            const polygon: THREE.Vector3[] = []
+            hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+    
+            // Формируем замыкание фигуры
+            polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+    
+            const material = new THREE.LineBasicMaterial({
+              color: 0xF0FD13,  // базовый желтый
+              linewidth: 4
+            });    
+    
+            // Формируем объект
+            const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+            this.sphere!.add(new THREE.Line(geometry, material))      
+          }
 
-        else if(status === "blue") {
-      
-          // Из точек формируем полигон
-          const polygon: THREE.Vector3[] = []
-          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
-  
-          // Формируем замыкание фигуры
-          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
-  
-          const material = new THREE.LineBasicMaterial({
-            color: 0x0F8FA1,  // blue
-            linewidth: 3
-          });    
-  
-          // Формируем объект
-          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-          this.sphere!.add(new THREE.Line(geometry, material))      
-        }
+          else if(status === "blue") {
+        
+            // Из точек формируем полигон
+            const polygon: THREE.Vector3[] = []
+            hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+    
+            // Формируем замыкание фигуры
+            polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+    
+            const material = new THREE.LineBasicMaterial({
+              color: 0x0F8FA1,  // blue
+              linewidth: 3
+            });    
+    
+            // Формируем объект
+            const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+            this.sphere!.add(new THREE.Line(geometry, material))      
+          }
 
-        else if(status === "red") {
-      
-          // Из точек формируем полигон
-          const polygon: THREE.Vector3[] = []
-          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
-  
-          // Формируем замыкание фигуры
-          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
-  
-          const material = new THREE.LineBasicMaterial({
-            color: 0xAB0949,  // red
-            linewidth: 3
-          });    
-  
-          // Формируем объект
-          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-          this.sphere!.add(new THREE.Line(geometry, material))      
-        }
+          else if(status === "red") {
+        
+            // Из точек формируем полигон
+            const polygon: THREE.Vector3[] = []
+            hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+    
+            // Формируем замыкание фигуры
+            polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+    
+            const material = new THREE.LineBasicMaterial({
+              color: 0xAB0949,  // red
+              linewidth: 3
+            });    
+    
+            // Формируем объект
+            const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+            this.sphere!.add(new THREE.Line(geometry, material))      
+          }
 
-        else if(status === "yellow") {
-      
-          // Из точек формируем полигон
-          const polygon: THREE.Vector3[] = []
-          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
-  
-          // Формируем замыкание фигуры
-          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
-  
-          const material = new THREE.LineBasicMaterial({
-            color: 0xD9D119,  // yellow
-            linewidth: 3
-          });    
-  
-          // Формируем объект
-          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
-          this.sphere!.add(new THREE.Line(geometry, material))      
+          else if(status === "yellow") {
+        
+            // Из точек формируем полигон
+            const polygon: THREE.Vector3[] = []
+            hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+    
+            // Формируем замыкание фигуры
+            polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+    
+            const material = new THREE.LineBasicMaterial({
+              color: 0xD9D119,  // yellow
+              linewidth: 3
+            });    
+    
+            // Формируем объект
+            const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+            this.sphere!.add(new THREE.Line(geometry, material))      
+          }
+
+        } catch (err) {
+          console.log("displayHP().catch", err)
         }
   
       }
