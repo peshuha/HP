@@ -6,4 +6,5 @@ export interface IHP {
     polygon: IPoint[]
     segment?: IPoint[]
     status?: string
+    comment?: string
 }

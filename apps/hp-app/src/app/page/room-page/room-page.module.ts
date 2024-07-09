@@ -12,6 +12,7 @@ import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.compon
 import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
 import { SceneDirective } from '../../directive/scene.directive';
 import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.
     CommonModule,
     RoomPageRoutingModule,
     MenubarModule,
+    FormsModule,
   ]
 })
 export class RoomPageModule { }

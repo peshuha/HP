@@ -5,8 +5,11 @@ import { HPService } from '../service/hp/hp.service';
 import { RoomService } from '../service/room/room.service';
 import { SphereBufferGeometry } from '../class/SphereBufferGeometry';
 import { inside, uvToVector3 } from '../class/point-utils';
-import { Subject } from 'rxjs';
-import { ConfigService } from '../service/config/config.service';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { HPNotifyService } from '../service/hpnotify/hpnotify.service';
+import { HPFilterService } from '../service/hpfilter/hpfilter.service';
+import { IHPFilter } from '../class/hp-filter';
+import { HPStatus } from '../class/hp-status';
 
 
 @Directive({
@@ -61,12 +64,18 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
 
   npoint = 1
   hps: IHP[] = []
+  statuses: HPStatus[] = ['blue', 'red', 'yellow']
+
+  // Фильтр
+  hpf$: Subscription | undefined
+  hpf: IHPFilter | undefined
 
   constructor(
     private el: ElementRef,
     private svcHP: HPService,
-    private svcRoom: RoomService
-
+    private svcRoom: RoomService,
+    private svcNotify: HPNotifyService,
+    private svcHPF: HPFilterService
   ) { }
 
   ngOnInit(): void {
@@ -75,9 +84,7 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     console.log("SceneDirective::ngAfterViewInit()")
-    // this.init({
-    //   texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`
-    // })
+    
   }
 
   ngOnDestroy(): void {
@@ -128,6 +135,13 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
     // this.renderer.setSize(innerWidth, innerHeight);
     console.log("this.renderer.domElement", this.canvas, this.renderer.domElement)
 
+    // Подписываемся на фильтр
+    this.hpf$ = this.svcHPF.getNotifier$().subscribe(hpf => {
+      this.hpf = hpf
+      this.displayHP()
+    })
+
+
     addEventListener('mousedown', this.onPointerStart.bind(this));
     addEventListener('mousemove', this.onPointerMove.bind(this));
     addEventListener('mouseup', this.onPointerUp.bind(this));
@@ -167,8 +181,14 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
   // Отобразить все hp
   displayHP() {
 
-    // Сначала все удаляем
-    this.sphere?.children.forEach(ch => {ch.parent?.remove(ch)})
+    // Сначала все удаляем ( Удаляем через список id. Иначе всех не обходит)
+    const children = this.sphere!.children.map(ch => ch.id)
+    for(let id of children) {
+      const ch = this.scene!.getObjectById(id)
+      ch!.removeFromParent()
+    }
+
+    console.log("after remove", this.sphere!.children)
 
     // Затем добавляем
     this.svcHP.get(this.room_id).subscribe(hps => {
@@ -176,6 +196,19 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
       this.hps = hps
       console.log("displayHP().hps", hps)
       for(let hp of this.hps) {
+
+        // Проверяем по фильтру. Подходят ли
+        let bOk = true
+        if(this.hpf) {
+
+          bOk = false
+          if(hp.status && this.hpf.status && this.hpf.status.includes(hp.status)) {
+            bOk = true
+          }
+        }
+
+        if(!bOk)
+          continue
 
         if(!hp.polygon.length)
           continue
@@ -196,7 +229,64 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
           polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
   
           const material = new THREE.LineBasicMaterial({
-            color: 0xF8FA19,  // yellow
+            color: 0xF0FD13,  // ytjyjdsq ptktysq
+            linewidth: 4
+          });    
+  
+          // Формируем объект
+          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+          this.sphere!.add(new THREE.Line(geometry, material))      
+        }
+
+        else if(status === "blue") {
+      
+          // Из точек формируем полигон
+          const polygon: THREE.Vector3[] = []
+          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+  
+          // Формируем замыкание фигуры
+          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+  
+          const material = new THREE.LineBasicMaterial({
+            color: 0x0F8FA1,  // blue
+            linewidth: 3
+          });    
+  
+          // Формируем объект
+          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+          this.sphere!.add(new THREE.Line(geometry, material))      
+        }
+
+        else if(status === "red") {
+      
+          // Из точек формируем полигон
+          const polygon: THREE.Vector3[] = []
+          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+  
+          // Формируем замыкание фигуры
+          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+  
+          const material = new THREE.LineBasicMaterial({
+            color: 0xAB0949,  // red
+            linewidth: 3
+          });    
+  
+          // Формируем объект
+          const geometry = new THREE.BufferGeometry().setFromPoints(polygon);
+          this.sphere!.add(new THREE.Line(geometry, material))      
+        }
+
+        else if(status === "yellow") {
+      
+          // Из точек формируем полигон
+          const polygon: THREE.Vector3[] = []
+          hp.polygon.forEach(p => polygon.push(uvToVector3(this.sphere!, this.xyTouv(p)!)!))
+  
+          // Формируем замыкание фигуры
+          polygon.push(uvToVector3(this.sphere!, this.xyTouv(hp.polygon[0])!)!)
+  
+          const material = new THREE.LineBasicMaterial({
+            color: 0xD9D119,  // yellow
             linewidth: 3
           });    
   
@@ -272,19 +362,17 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
     const p = this.uvToxy(intersects[0].uv!)
     const p2 = this.uvToxy(this.getUVCoord(x2, y2)!)
 
-    // console.log("raycast(event)", intersects[0].uv, p)
-    // return 
-
     // Ищем ту область, в которой у нас точка
+    let hpCurrent: IHP | undefined
     for(let hp of this.hps) {
       
       if(!inside(p, hp.polygon))
         continue
 
-      // console.log("raycast(event):hp", p, p2, hp)
-      // this.info!.innerText = hp.comment || ""
+      hpCurrent = hp
       break
     }
+    this.svcNotify.sendMesage(hpCurrent)
 
   }
 
@@ -329,10 +417,12 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
       console.log("onPointerUp(event)", polygon)
 
       // Добавляем его к списку HP
-      const prodnum: IProdnum = {prodnum: `rect ${this.npoint}`, comment: "", qty: 0}
+      const prodnum: IProdnum = {prodnum: `rect ${this.npoint}`, qty: 0, comment: ""}
       this.svcHP.add({
         room_id: this.room_id,
-        polygon
+        polygon,
+        comment: `hp №${this.npoint}`,
+        status: this.statuses[this.npoint % this.statuses.length]
       }).subscribe(x => {
 
         // Перерисовываем 

@@ -1,4 +1,9 @@
-import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { 
+    Prop, 
+    Schema, 
+    SchemaFactory
+    
+} from '@nestjs/mongoose';
 import { IHP, IPoint } from '@vkr/hp-lib';
 import { HydratedDocument } from 'mongoose';
 
@@ -16,6 +21,14 @@ export class HpMongo implements IHP{
     // Те же самые координаты, но с разбивкой для случаем сцепки рисунка кольцом
     @Prop()
     public segment?: [IPoint]
+
+    // Состояние активной области
+    @Prop()
+    public status?: string;
+
+    // Комментарий
+    @Prop()
+    public comment?: string
 }
 
 export type HpMongoDocument = HydratedDocument<HpMongo>;

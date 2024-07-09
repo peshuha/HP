@@ -15,7 +15,8 @@ export class HpDto implements IHP {
         public segment?: PointDto[],
         // В каких условиях отображать
         public status?: string,
-
+        // Комментарий
+        public comment?: string,
     ) {
     }
 
@@ -26,19 +27,9 @@ export class HpDto implements IHP {
             hp._id,
             hp.room_id,
             hp.polygon,
-            hp.segment
-        )
-    }
-
-    // Request
-    static fromJSON(hp: string) {
-        const o = JSON.parse(hp) as IHP
-        console.log("HpDto.fromJSON", o)
-        return new this(
-            o._id,
-            o.room_id,
-            o.polygon,
-            o.segment
+            hp.segment,
+            hp.status,
+            hp.comment
         )
     }
 
@@ -48,9 +39,10 @@ export class HpDto implements IHP {
             hp._id.toString(),
             hp.room_id,
             hp.polygon,
-            hp.segment
-        )
-        
+            hp.segment,
+            hp.status,
+            hp.comment
+        )       
     }
 
 }
