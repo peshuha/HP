@@ -13,6 +13,7 @@ import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.comp
 import { SceneDirective } from '../../directive/scene.directive';
 import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.component';
 import { FormsModule } from '@angular/forms';
+import { RoomCylinder15piComponent } from './compomnent/room-cylinder15pi/room-cylinder15pi.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     RoomSphereComponent,
     RoomSphere0Component,
     SceneDirective,
-    RoomCylinderComponent
+    RoomCylinderComponent,
+    RoomCylinder15piComponent
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { StartComponent } from './compomnent/start/start.component';
 import { RoomSphereComponent } from './compomnent/room-sphere/room-sphere.component';
 import { RoomSphere0Component } from './compomnent/room-sphere/room-sphere0.component';
 import { RoomCylinderComponent } from './compomnent/room-cylinder/room-cylinder.component';
+import { RoomCylinder15piComponent } from './compomnent/room-cylinder15pi/room-cylinder15pi.component';
 
 const routes: Routes = [
   {
@@ -22,13 +23,17 @@ const routes: Routes = [
         component: StartComponent
       },  
       {
-        path: "sphera/:room_id",
+        path: "sphere/:room_id",
         component: RoomSphereComponent
       },  
       {
+        path: "cylinder15pi/:room_id",
+        component: RoomCylinder15piComponent
+      },
+      {
         path: "cylinder/:room_id",
         component: RoomCylinderComponent
-      },
+      },  
       {
         path: "sphera",
         component: SphereComponent

@@ -6,7 +6,7 @@ import { ConfigService } from 'apps/hp-app/src/app/service/config/config.service
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-room-cylinder',
+  selector: 'app-room-cylinder15pi',
   template: `
     <div #host 
 
@@ -39,7 +39,7 @@ import { Subject } from 'rxjs';
     }
   `
 })
-export class RoomCylinderComponent implements OnInit, AfterViewInit {
+export class RoomCylinder15piComponent implements OnInit, AfterViewInit {
 
   // directive scene
   activator = new Subject; 
@@ -56,14 +56,14 @@ export class RoomCylinderComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.room_id = this.aroute.snapshot.paramMap.get("room_id") || ""
-    console.log("RoomCylinderComponent::ngOnInit()", this.room_id)
+    console.log("RoomCylinder15piComponent::ngOnInit()", this.room_id)
   }
 
   ngAfterViewInit(): void {
 
     this.info = this._info?.nativeElement
 
-    const geometry = new CylinderBufferGeometry(250, 250, 500, 100, 100)
+    const geometry = new CylinderBufferGeometry(250, 250, 500, 100, 100, false, Math.PI, Math.PI * 1.5)
     this.dscene!.init({
       geometry: geometry,
       texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`

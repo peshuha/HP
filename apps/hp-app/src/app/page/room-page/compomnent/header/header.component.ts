@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { IRoom } from '@vkr/hp-lib';
 import { DRoomCreateComponent } from 'apps/hp-app/src/app/dialogs/d-room-create.component';
 import { DRoomSelectComponent } from 'apps/hp-app/src/app/dialogs/d-room-select.component';
+import { AppService } from 'apps/hp-app/src/app/service/app/app.service';
 import { RoomService } from 'apps/hp-app/src/app/service/room/room.service';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private svcDialog: DialogService,
     private router: Router,
-    private svcRoom: RoomService
+    private svcRoom: RoomService,
+    private svcApp: AppService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,36 @@ export class HeaderComponent implements OnInit {
           }
         ]
       },
+      {
+        label: "Вид",
+        items: [
+          {
+            label: "Сфера",
+            command: (event: MenuItemCommandEvent): void => {
+              console.log("this.mnu", this.svcApp.RoomId)
+              if(this.svcApp.RoomId) {
+                this.router.navigate(["./sphere", this.svcApp.RoomId])
+              }
+            }
+          },
+          {
+            label: "Цилиндр", 
+            command: (event: MenuItemCommandEvent): void => {
+              if(this.svcApp.RoomId) {
+                this.router.navigate(["./cylinder", this.svcApp.RoomId])
+              }
+            }
+          },
+          {
+            label: "Цилиндр 1.5π", 
+            command: (event: MenuItemCommandEvent): void => {
+              if(this.svcApp.RoomId) {
+                this.router.navigate(["./cylinder15pi", this.svcApp.RoomId])
+              }
+            }
+          }
+        ]
+      },
     ]
   }
 
@@ -50,14 +82,17 @@ export class HeaderComponent implements OnInit {
       modal: true
     })
 
-    this.ref.onClose.subscribe(r => {
-      const room: IRoom = r
-      console.log("this.ref.onClose", room)
-      if(!room){
+    this.ref.onClose.subscribe(room => {
+
+      if(!room)
         return
-      }
+
+      // Устанавливаем текущую комнату
+      console.log("this.ref.onClose.subscribe", room)
+      this.svcApp.RoomId = room._id
       
-      this.router.navigate(["./cylinder", room._id])
+      // По умолчанию переходим на цилиндр
+      this.router.navigate(["./cylinder", this.svcApp.RoomId])
     })
   }
 
@@ -71,5 +106,7 @@ export class HeaderComponent implements OnInit {
       this.svcRoom.add(<IRoom>room).subscribe()
     })
   }
+
+  
 
 }
