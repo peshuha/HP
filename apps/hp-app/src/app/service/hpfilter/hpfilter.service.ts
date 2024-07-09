@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IHPFilter } from '../../class/hp-filter';
+import { IHPFilter } from '../../model/hp-filter.interface';
 import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({

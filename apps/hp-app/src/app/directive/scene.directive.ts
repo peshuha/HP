@@ -8,8 +8,8 @@ import { inside, uvToVector3 } from '../class/point-utils';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HPNotifyService } from '../service/hpnotify/hpnotify.service';
 import { HPFilterService } from '../service/hpfilter/hpfilter.service';
-import { IHPFilter } from '../class/hp-filter';
-import { HPStatus } from '../class/hp-status';
+import { IHPFilter } from '../model/hp-filter.interface';
+import { HPStatus } from '../model/hp-status.type';
 
 
 @Directive({
@@ -20,17 +20,8 @@ import { HPStatus } from '../class/hp-status';
       name: "canvas",
       required: true
     }, 
-    // {
-    //   // Форма фигуры на что натягиваем изображение
-    //   name: "geometry",
-    //   required: true
-    // },
     {
-      // Через что передаем все события
-      name: "activator",
-      required: false
-    },
-    {
+      // Id комнаты
       name: "room_id",
       required: true
     }
@@ -517,7 +508,6 @@ export class SceneDirective implements OnInit, AfterViewInit, OnDestroy {
   private uvToxy(uv: THREE.Vector2): IPoint {
 
     const data = this.texture?.source.data
-    // console.log("uvToxy texture", data.height, data.width)
 
     const y = Math.floor((1-uv.y)*data!.height);
     const x = Math.floor(uv.x*data!.width);

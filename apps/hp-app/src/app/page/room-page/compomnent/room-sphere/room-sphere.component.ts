@@ -73,7 +73,7 @@ export class RoomSphereComponent implements OnInit, AfterViewInit {
 
     console.log("RoomSphereComponent::ngAfterViewInit().dscene", this.dscene)
     this.dscene!.init({
-      geometry: geometry,
+      geometry: new SphereBufferGeometry(500, 60, 40),
       texture: ConfigService.Config?.appservice + `/room/img/${this.room_id}`
     })
 
