@@ -91,8 +91,8 @@ export class HeaderComponent implements OnInit {
       console.log("this.ref.onClose.subscribe", room)
       this.svcApp.RoomId = room._id
       
-      // По умолчанию переходим на цилиндр
-      this.router.navigate(["./cylinder", this.svcApp.RoomId])
+      // По умолчанию переходим на сферу
+      this.router.navigate(["./sphere", this.svcApp.RoomId])
     })
   }
 

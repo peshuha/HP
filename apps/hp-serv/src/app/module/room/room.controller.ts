@@ -8,7 +8,6 @@ import { Express } from 'express'
 import { UserId } from '../../decorator/userid';
 import { Readable } from 'stream';
 
-// @Public()
 @Controller('room')
 export class RoomController {
 
@@ -23,14 +22,12 @@ export class RoomController {
 
     @Get("/img/:id")
     async getImage(@Response() res, @UserId() user, @Param("id") room_id) {
-        console.log("RoomController::getImage", room_id)
 
         // Получаем картинку
         const img: Buffer | null = await this.svc.get_img(user, room_id)
         if(!img)
             return
 
-        console.log("RoomController::getImage.img", img)
         // Возвращаем ее в поток
         res.set({
             'Content-Type': 'image/*',

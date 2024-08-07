@@ -20,7 +20,7 @@ const routes: Routes = [
       }, 
       {
         path: "start",
-        component: StartComponent
+        component: SphereComponent
       },  
       {
         path: "sphere/:room_id",

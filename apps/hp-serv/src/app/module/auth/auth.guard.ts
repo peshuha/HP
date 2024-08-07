@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
 
     // На время тестов указываем тестового юзера
     req['__user'] = {
-      _id: "xxx"
+      _id: "demo"
     }
     // console.log("AuthGuard::canActivate", req['__user'])
     return true;
